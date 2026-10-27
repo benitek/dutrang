@@ -1,0 +1,162 @@
+/* Du Trang — stylesheet
+   Bảng màu & cỡ chữ nằm ở :root; muốn chỉnh giao diện chỉ cần sửa tại đây. */
+:root {
+  --paper: #f8f7f3;
+  --ink: #292923;
+  --body: #46453e;
+  --muted: #6b6a62;
+  --line: #deddd5;
+  --olive: #5d6450;      /* chữ nhấn, đạt tương phản AA trên nền ngà */
+  --olive-soft: #7b806b; /* đường kẻ, gạch chân */
+
+  --serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
+  --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --shell: 1080px;
+  --measure: 40.5rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.9 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: #dfe2d2; }
+a { color: inherit; text-decoration: none; }
+[hidden] { display: none !important; }
+
+:focus-visible { outline: 2px solid var(--olive); outline-offset: 4px; border-radius: 2px; }
+h1:focus { outline: none; }
+
+.skip-link {
+  position: absolute; left: 16px; top: -60px; z-index: 10;
+  padding: 8px 14px; background: var(--ink); color: var(--paper); font-size: .875rem;
+}
+.skip-link:focus { top: 12px; }
+
+/* ——— Khung trang ——— */
+.site-shell {
+  width: min(100% - 3.5rem, var(--shell));
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.75rem;
+  padding: 2.25rem 0 1.4rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark {
+  font: 400 1.6rem/1.2 var(--serif);
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+
+.nav { display: flex; flex-wrap: wrap; gap: .25rem clamp(1.1rem, 3vw, 2.4rem); }
+
+.nav a {
+  position: relative;
+  padding: .55rem 0;
+  color: var(--muted);
+  font-size: .875rem;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  transition: color .2s ease;
+}
+.nav a:hover, .nav a[aria-current="page"] { color: var(--ink); }
+.nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: .2rem;
+  height: 1px; background: var(--olive-soft);
+}
+
+/* ——— Nội dung ——— */
+main {
+  flex: 1;
+  width: 100%;
+  max-width: calc(var(--measure) + 4rem);
+  margin-left: clamp(0px, 9vw, 130px);
+  padding: clamp(4rem, 9vw, 7.5rem) 0 clamp(5rem, 9vw, 7rem);
+}
+
+.page { padding-bottom: .1px; }
+.js .page:not([hidden]) { animation: appear .4s ease both; }
+.page + .page { margin-top: 6rem; } /* chưa có JS: các mục xếp dọc */
+.js .page + .page { margin-top: 0; }
+
+@keyframes appear { from { opacity: 0; } to { opacity: 1; } }
+
+.eyebrow {
+  margin: 0 0 1.4rem;
+  color: var(--olive);
+  font: italic 400 1.0625rem/1.4 var(--serif);
+}
+
+h1 {
+  margin: 0 0 1.8rem;
+  font: 400 clamp(2.5rem, 6.5vw, 3.75rem)/1.25 var(--serif);
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+
+.lead {
+  max-width: 36rem;
+  margin: 0 0 2.6rem;
+  font: 400 clamp(1.3rem, 3vw, 1.65rem)/1.6 var(--serif);
+  text-wrap: balance;
+}
+
+.prose { max-width: var(--measure); color: var(--body); line-height: 2; }
+.prose p { margin: 0 0 1.55rem; text-wrap: pretty; }
+.prose p:last-child { margin-bottom: 0; }
+
+.closing-line {
+  max-width: var(--measure);
+  margin: 3rem 0 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font: italic 400 1.125rem/1.7 var(--serif);
+}
+
+/* ——— Chân trang ——— */
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 1.4rem 0 1.9rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .8125rem;
+}
+.footer-note { font: italic 400 .95rem var(--serif); }
+
+/* ——— Điện thoại ——— */
+@media (max-width: 680px) {
+  body { font-size: 1.03rem; }
+  .site-shell { width: min(100% - 2.25rem, var(--shell)); }
+  .site-header { display: block; padding: 1.6rem 0 .5rem; }
+  .wordmark { display: inline-block; margin-bottom: .6rem; font-size: 1.5rem; }
+  .nav { gap: 0 1.5rem; }
+  main { margin-left: 0; padding-top: 3.5rem; }
+  .site-footer { flex-direction: column; gap: .15rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
